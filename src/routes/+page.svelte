@@ -5,24 +5,31 @@
 		tags: string[],
 	}[];
 
+	let wordMeaningLike = '';
+	let wordStartsWith = '';
+	let wordEndsWith = '';
+	let wordLength = 0;
+	let wordSpelledAs = '';
+
 	const handleSubmit = (e: any) => {
 		const actionUrl = e.target.action;
-
-		const formData = new FormData(e.target);
 		const data = new URLSearchParams();
 
-		for (const [name, value] of formData) {
-			data.append(name, value as string);
+		if (wordLength) {
+			wordSpelledAs = `${wordStartsWith}${'?'.repeat(wordLength - (wordStartsWith.length + wordEndsWith.length))}${wordEndsWith}`;
+		}
+		else {
+			wordSpelledAs = `${wordStartsWith}*${wordEndsWith}`;
 		}
 
+		data.append('ml', wordMeaningLike);
+		data.append('sp', wordSpelledAs);
 		data.append('max', '10');
 
 		let a = fetch(`${actionUrl}?${data}`)
 			.then(res => res.json())
 			.then(data => result = data)
 			.catch(console.error);
-
-		console.log(a)
 	}
 </script>
 
@@ -30,8 +37,14 @@
 
 <h3 class="text-xl font-semibold text-center">Find Word</h3>
 <form action="https://api.datamuse.com/words" on:submit|preventDefault={handleSubmit} class="flex flex-col gap-4 items-center">
-	<label for="words">Word with similar meaning to:</label>
-	<input name="ml" id="words" type="text" class="border border-blue-500" />
+	<label for="meanlike">Word with similar meaning to:</label>
+	<input name="meanlike" id="words" type="text" class="border border-blue-500" bind:value={wordMeaningLike} />
+	<label for="startwith">Word starts with:</label>
+	<input name="startwith" id="words" type="text" class="border border-blue-500" bind:value={wordStartsWith} />
+	<label for="endwith">Word ends with:</label>
+	<input name="endwith" id="words" type="text" class="border border-blue-500" bind:value={wordEndsWith} />
+	<label for="length">Word length:</label>
+	<input name="length" id="words" type="number" class="border border-blue-500" bind:value={wordLength} />
 	<input type="submit" value="Find" class="bg-blue-500 text-slate-50 px-2 cursor-pointer" />
 </form>
 
