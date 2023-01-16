@@ -6,7 +6,7 @@
 	export let required: boolean = false;
 </script>
 
-<div class="p-2 w-full">
+<div class="w-full">
 	<label
 		for={name}
 		class="block after:content-[':']"
