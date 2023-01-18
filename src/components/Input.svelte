@@ -4,6 +4,7 @@
 	export let value: string;
 	export let pattern: string = '';
 	export let required: boolean = false;
+	export let placeholder: string = '';
 </script>
 
 <div class="w-full">
@@ -18,8 +19,9 @@
 		name="{name}"
 		type="text"
 		pattern={pattern || null}
-		class="border border-blue-500 px-2 py-1 rounded-lg block w-full"
+		class="border border-blue-500 px-2 py-1 rounded-lg block w-full focus:outline-blue-500 autofill:border-green-600"
 		bind:value
 		{required}
+		{placeholder}
 	/>
 </div>
