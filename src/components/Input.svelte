@@ -10,7 +10,7 @@
 <div class="w-full">
 	<label
 		for={name}
-		class="block after:content-[':']"
+		class="block after:content-[':'] text-slate-900 dark:text-slate-50"
 	>
 		{label}
 	</label>
@@ -19,7 +19,7 @@
 		name="{name}"
 		type="text"
 		pattern={pattern || null}
-		class="border border-blue-500 px-2 py-1 rounded-lg block w-full focus:outline-blue-500 autofill:border-green-600"
+		class="border border-blue-500 px-2 py-1 rounded-lg block w-full bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50 focus:outline-blue-500 autofill:transition-colors autofill:duration-[5000s] autofill:delay-[0s]"
 		bind:value
 		{required}
 		{placeholder}
