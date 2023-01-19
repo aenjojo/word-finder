@@ -1,60 +1,81 @@
 <script lang="ts">
-	let result: {
-		word: string,
-		score: number,
-		tags: string[],
-	}[];
+	import Button from '#components/Button.svelte';
+    import Heading from '#components/Heading.svelte';
+    import Input from '#components/Input.svelte';
+    import SEO from '#components/SEO.svelte';
+	import { fetchData, type fetchResult } from '#libs/fetchData';
 
-	let wordMeaningLike = '';
-	let wordStartsWith = '';
-	let wordEndsWith = '';
-	let wordLength = 0;
-	let wordSpelledAs = '';
+	let results: fetchResult;
+	let textMeansLike: string = '';
 
-	const handleSubmit = (e: any) => {
-		const actionUrl = e.target.action;
-		const data = new URLSearchParams();
+	const handleSubmit = async (event: any) => {
+		const url = event.target.action;
 
-		if (wordLength) {
-			wordSpelledAs = `${wordStartsWith}${'?'.repeat(wordLength - (wordStartsWith.length + wordEndsWith.length))}${wordEndsWith}`;
-		}
-		else {
-			wordSpelledAs = `${wordStartsWith}*${wordEndsWith}`;
-		}
-
-		data.append('ml', wordMeaningLike);
-		data.append('sp', wordSpelledAs);
-		data.append('max', '10');
-
-		let a = fetch(`${actionUrl}?${data}`)
-			.then(res => res.json())
-			.then(data => result = data)
-			.catch(console.error);
+		results = await fetchData(url, [
+			['ml', textMeansLike],
+			['max', '10']
+		]);
 	}
 </script>
 
-<h1 class="text-4xl font-extrabold">Find a word easier</h1>
+<SEO
+	title="Simple Word Finder"
+	description="A simple word finding website"
+	keywords="{['wofi', 'word finder', 'simple word finding app', 'svelte kit app']}"
+	pageUrl="/"
+/>
 
-<h3 class="text-xl font-semibold text-center">Find Word</h3>
-<form action="https://api.datamuse.com/words" on:submit|preventDefault={handleSubmit} class="flex flex-col gap-4 items-center">
-	<label for="meanlike">Word with similar meaning to:</label>
-	<input name="meanlike" id="words" type="text" class="border border-blue-500" bind:value={wordMeaningLike} />
-	<label for="startwith">Word starts with:</label>
-	<input name="startwith" id="words" type="text" class="border border-blue-500" bind:value={wordStartsWith} />
-	<label for="endwith">Word ends with:</label>
-	<input name="endwith" id="words" type="text" class="border border-blue-500" bind:value={wordEndsWith} />
-	<label for="length">Word length:</label>
-	<input name="length" id="words" type="number" class="border border-blue-500" bind:value={wordLength} />
-	<input type="submit" value="Find" class="bg-blue-500 text-slate-50 px-2 cursor-pointer" />
-</form>
-
-<h3 class="text-xl font-semibold">Result:</h3>
-{#if result}
-	<ol class="list-decimal ml-4">
-		{#each result as data}
-			<li>{data.word}</li>
-		{/each}
-	</ol>
-{:else}
-	<p>No result</p>
-{/if}
+<Heading
+	level="1"
+	title="Simple Word Finder"
+/>
+<section class="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-8 mt-4 grid-flow-row">
+	<section class="col-span-4 md:col-start-3 lg:col-start-5 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-50 p-4 rounded-lg shadow-lg">
+		<Heading
+			level="2"
+			title="Search Form"
+		/>
+		<form
+			action="https://api.datamuse.com/words"
+			class="flex flex-col gap-4"
+			on:submit|preventDefault={handleSubmit}
+		>
+			<div>
+				<Input
+					name="means-like"
+					label="Meaning Related To"
+					bind:value="{textMeansLike}"
+					placeholder='cake'
+					required
+				/>
+			</div>
+			<div class="flex flex-row gap-4 p-4 justify-center items-center">
+				<Button
+					value="Search"
+					type="submit"
+					color="primary"
+				/>
+				<Button
+					value="Clear"
+					type="reset"
+					color="danger"
+				/>
+			</div>
+		</form>
+	</section>
+	<section class="col-span-4 md:col-span-8 lg:col-start-3 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-50 p-4 rounded-lg shadow-lg">
+		<Heading
+			level="2"
+			title="Result"
+		/>
+		{#if results && results.length > 0}
+			<ol class="list-decimal ml-8 py-2">
+				{#each results as result}
+					<li>{result.word}</li>
+				{/each}
+			</ol>
+		{:else}
+			<p class="py-2">No result</p>
+		{/if}
+	</section>
+</section>
