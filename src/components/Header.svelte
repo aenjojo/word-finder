@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import Link from '#components/Link.svelte';
 	import ThemeSwitch from '#components/ThemeSwitch.svelte';
 	import Icon from 'svelte-icons-pack';
@@ -10,6 +11,8 @@
 	import FiX from 'svelte-icons-pack/fi/FiX';
 
 	let isMobileMenuOpen = false;
+
+	$: isMobileMenuOpen = $page.route.id ? false : true;
 
 	const handleMobileMenu = () => {
 		isMobileMenuOpen = !isMobileMenuOpen;
