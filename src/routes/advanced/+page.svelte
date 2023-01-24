@@ -37,6 +37,15 @@
 			['max', '10']
 		]);
 	}
+
+	const handleReset = () => {
+		textMeansLike = '';
+		textSpellsLike = '';
+
+		firstLetter = '';
+		lastLetter = '';
+		textLength = '';
+	}
 </script>
 
 <SEO
@@ -60,6 +69,7 @@
 			action="https://api.datamuse.com/words"
 			class="flex flex-col gap-4"
 			on:submit|preventDefault={handleSubmit}
+			on:reset|preventDefault={handleReset}
 		>
 			<div class="flex flex-col gap-2">
 				<Input
