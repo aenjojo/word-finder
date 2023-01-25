@@ -9,17 +9,17 @@
 	import FiMenu from 'svelte-icons-pack/fi/FiMenu';
 	// @ts-ignore
 	import FiX from 'svelte-icons-pack/fi/FiX';
+    import { browser } from '$app/environment';
 
 	let isMobileMenuOpen = false;
 
 	$: isMobileMenuOpen = $page.route.id ? false : true;
+	$: if (browser) {
+		document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto';
+	}
 
 	const handleMobileMenu = () => {
 		isMobileMenuOpen = !isMobileMenuOpen;
-
-		isMobileMenuOpen
-			? document.body.style.overflow = 'hidden'
-			: document.body.style.overflow = 'auto'
 	}
 </script>
 
