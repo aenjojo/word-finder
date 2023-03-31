@@ -30,6 +30,6 @@
 		"vitest": "^0.25.3"
 	},
 	"dependencies": {
-		"svelte-icons-pack": "^2.0.0"
+		"svelte-icons-pack": "^2.1.0"
 	}
 }
