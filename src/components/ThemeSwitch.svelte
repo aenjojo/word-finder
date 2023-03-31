@@ -1,9 +1,7 @@
 <script lang="ts">
     import { browser } from '$app/environment';
 	import Icon from 'svelte-icons-pack';
-	// @ts-ignore
 	import FiMoon from 'svelte-icons-pack/fi/FiMoon';
-	// @ts-ignore
 	import FiSun from 'svelte-icons-pack/fi/FiSun';
 
 	let darkMode = false;

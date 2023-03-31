@@ -3,11 +3,8 @@
 	import Link from '#components/Link.svelte';
 	import ThemeSwitch from '#components/ThemeSwitch.svelte';
 	import Icon from 'svelte-icons-pack';
-	// @ts-ignore
 	import FiGithub from 'svelte-icons-pack/fi/FiGithub';
-	// @ts-ignore
 	import FiMenu from 'svelte-icons-pack/fi/FiMenu';
-	// @ts-ignore
 	import FiX from 'svelte-icons-pack/fi/FiX';
     import { browser } from '$app/environment';
 
